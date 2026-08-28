@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Asistente Virtual Cálidda - Multiflujo Completo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Ocultar barra de scroll para un look más limpio */
+        #chat-container::-webkit-scrollbar { width: 4px; }
+        #chat-container::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-stone-900 flex justify-center items-center min-h-screen p-4">
+
+    <!-- Input oculto para carga de imágenes (Cámara/Galería) -->
+    <input type="file" id="meter-photo-upload" accept="image/*" class="hidden">
+
+    <!-- Contenedor Estilo Smartphone -->
+    <div class="w-full max-w-md bg-[#efeae2] h-[850px] rounded-[40px] border-[8px] border-stone-800 shadow-2xl flex flex-col overflow-hidden relative">
+        
+        <!-- WhatsApp Header -->
+        <div class="bg-[#075e54] text-white px-4 py-3 flex items-center justify-between shadow-md z-10">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-arrow-left text-lg cursor-pointer"></i>
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                        <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white font-bold text-xs">❄️</div>
+                    </div>
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#075e54] rounded-full"></span>
+                </div>
+                <div>
+                    <h2 class="font-semibold text-sm leading-tight flex items-center gap-1">
+                        Clara - Cálidda <i class="fa-solid fa-circle-check text-xs text-sky-300"></i>
+                    </h2>
+                    <span class="text-[11px] text-stone-200">En línea</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-5 text-stone-200">
+                <i class="fa-solid fa-video cursor-pointer"></i>
+                <i class="fa-solid fa-phone cursor-pointer"></i>
+                <i class="fa-solid fa-ellipsis-vertical cursor-pointer"></i>
+            </div>
+        </div>
+
+        <!-- Cuerpo del Chat (Área de Mensajes) -->
+        <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 text-sm pb-10">
+            <!-- Mensaje Inicial Bot -->
+            <div class="bg-white p-3 rounded-lg shadow-sm max-w-[85%] text-stone-800 relative mt-2">
+                <p>Hola 👋 Soy el asistente virtual de Cálidda. Puedo ayudarte con tus recibos, pagos, consumo, solicitudes y otros servicios.</p>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PLANTILLAS REUTILIZABLES (Invisibles)      -->
+        <!-- ========================================== -->
+        <div id="templates" class="hidden">
+            
+            <!-- ====== FLUJO 1: RECIBOS ====== -->
+            <template id="tpl-receipt-step-1">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <p class="text-[13.5px] text-stone-800 font-medium mb-1 pb-3 border-b border-stone-100">
+                        Claro que sí, vamos a completar los siguientes pasos para que visualices o descargues tus recibos.
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium pt-1">
+                        <span>Paso 1 de 3</span>
+                    </div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-emerald-600 h-full w-1/3 rounded-full"></div>
+                    </div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold">
+                        <i class="fa-regular fa-clipboard"></i>
+                        <h3>Validación de identidad</h3>
+                    </div>
+                    <p class="text-xs text-stone-500">Verificación requerida para consultar facturas</p>
+
+                    <form class="step1-form space-y-3 pt-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-stone-700 mb-1">Código de cliente *</label>
+                            <input type="text" placeholder="Máx. 6 dígitos" maxlength="6" pattern="\d{1,6}" required class="client-input w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-stone-700 mb-1">Número de DNI o CCI *</label>
+                            <input type="text" placeholder="Máx. 8 dígitos" maxlength="8" pattern="\d{1,8}" required class="dni-input w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-600">
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-lg transition-colors shadow-sm">
+                            Validar
+                        </button>
+                    </form>
+                </div>
+            </template>
+
+            <template id="tpl-receipt-step-2">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium">
+                        <span>Paso 2 de 3</span>
+                    </div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-emerald-600 h-full w-2/3 rounded-full"></div>
+                    </div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <h3>Búsqueda de recibos</h3>
+                    </div>
+                    <p class="text-xs text-stone-500">Buscando recibos disponibles...</p>
+                    <div class="p-3 bg-indigo-50/50 rounded-lg flex items-center gap-3 text-indigo-900 text-xs font-medium">
+                        <i class="fa-solid fa-circle-notch fa-spin text-indigo-600 text-base"></i>
+                        <span>Consultando recibos en nuestra base de datos...</span>
+                    </div>
+                </div>
+            </template>
+
+            <template id="tpl-receipt-step-3">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium">
+                        <span>Paso 2 de 3</span>
+                    </div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-emerald-600 h-full w-2/3 rounded-full"></div>
+                    </div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold">
+                        <i class="fa-solid fa-box-archive"></i>
+                        <h3>Recibos encontrados</h3>
+                    </div>
+                    <p class="text-xs text-stone-500">Selecciona los recibos que deseas descargar:</p>
+
+                    <div class="space-y-2 receipt-list-container">
+                        <!-- Recibo 1 -->
+                        <label class="flex items-center justify-between p-2.5 bg-stone-50 border border-stone-200 rounded-lg cursor-pointer hover:bg-emerald-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" class="receipt-cb w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500" value="Recibo #001-2024">
+                                <div>
+                                    <p class="text-xs font-bold text-stone-800">Recibo #001-2024</p>
+                                    <p class="text-[11px] text-stone-500">Periodo: Enero 2024</p>
+                                </div>
+                            </div>
+                            <span class="receipt-price text-xs font-bold text-stone-800">S/ 125.50</span>
+                        </label>
+                        <!-- Recibo 2 -->
+                        <label class="flex items-center justify-between p-2.5 bg-stone-50 border border-stone-200 rounded-lg cursor-pointer hover:bg-emerald-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" class="receipt-cb w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500" value="Recibo #002-2024">
+                                <div>
+                                    <p class="text-xs font-bold text-stone-800">Recibo #002-2024</p>
+                                    <p class="text-[11px] text-stone-500">Periodo: Febrero 2024</p>
+                                </div>
+                            </div>
+                            <span class="receipt-price text-xs font-bold text-stone-800">S/ 98.30</span>
+                        </label>
+                        <!-- Recibo 3 -->
+                        <label class="flex items-center justify-between p-2.5 bg-stone-50 border border-stone-200 rounded-lg cursor-pointer hover:bg-emerald-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" class="receipt-cb w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500" value="Recibo #003-2024">
+                                <div>
+                                    <p class="text-xs font-bold text-stone-800">Recibo #003-2024</p>
+                                    <p class="text-[11px] text-stone-500">Periodo: Marzo 2024</p>
+                                </div>
+                            </div>
+                            <span class="receipt-price text-xs font-bold text-stone-800">S/ 142.00</span>
+                        </label>
+                    </div>
+
+                    <button disabled class="download-btn w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2 opacity-50 cursor-not-allowed">
+                        <i class="fa-solid fa-download"></i> Descargar seleccionados (0)
+                    </button>
+                </div>
+            </template>
+
+
+            <!-- ====== FLUJO 2: MEDIDOR ====== -->
+            <template id="tpl-meter-step-1">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <p class="text-[13.5px] text-stone-800 font-medium mb-1 pb-3 border-b border-stone-100">
+                        Para registrar tu medidor seguiremos los siguientes pasos:
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium pt-1">
+                        <span>Paso 1 de 4</span>
+                    </div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-emerald-600 h-full w-1/4 rounded-full"></div>
+                    </div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold">
+                        <i class="fa-regular fa-clipboard text-lg"></i>
+                        <h3>Aceptación de políticas</h3>
+                    </div>
+                    <p class="text-[11px] text-stone-500 leading-tight">Para continuar, debes aceptar las políticas de privacidad y los términos de servicio.</p>
+                    
+                    <label class="flex items-start gap-2 pt-2 cursor-pointer">
+                        <input type="checkbox" class="policy-cb mt-0.5 w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500">
+                        <span class="text-[11.5px] text-indigo-900">Acepto los términos y condiciones del servicio.</span>
+                    </label>
+                    <button disabled class="continue-btn w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-lg transition-colors shadow-sm mt-2 opacity-50 cursor-not-allowed">Continuar</button>
+                </div>
+            </template>
+
+            <template id="tpl-meter-step-2">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium"><span>Paso 2 de 4</span></div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden"><div class="bg-emerald-600 h-full w-2/4 rounded-full"></div></div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold"><i class="fa-regular fa-clipboard text-lg"></i><h3>Validación de identidad</h3></div>
+                    <form class="step2-form space-y-3 pt-1">
+                        <div>
+                            <label class="block text-[11px] font-bold text-stone-800 mb-1">Código de cliente *</label>
+                            <input type="text" placeholder="Máx. 6 dígitos" maxlength="6" required class="client-input w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-stone-800 mb-1">Número de doc. *</label>
+                            <input type="text" placeholder="Máx. 8 dígitos" maxlength="8" required class="dni-input w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-600">
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm pt-2">Validar datos</button>
+                    </form>
+                </div>
+            </template>
+
+            <template id="tpl-meter-step-3">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in" id="meter-step-3-card">
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium"><span>Paso 3 de 4</span></div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden"><div class="bg-emerald-600 h-full w-3/4 rounded-full"></div></div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold"><i class="fa-solid fa-camera text-lg"></i><h3>Lectura del medidor</h3></div>
+                    
+                    <!-- Estado Inicial: Sin foto -->
+                    <div id="state-no-photo" class="space-y-3">
+                        <p class="text-[11px] text-stone-500">Toma una foto de los números de tu medidor de gas.</p>
+                        <div class="bg-stone-200 h-32 rounded-lg flex items-center justify-center border-2 border-dashed border-stone-300"><i class="fa-solid fa-image text-4xl text-stone-400"></i></div>
+                        
+                        <!-- Consejos de lectura -->
+                        <div class="space-y-1.5 pt-1 pb-2">
+                            <p class="text-[11.5px] font-bold text-indigo-900">Consejos para una buena lectura:</p>
+                            <div class="flex items-center gap-2 text-[11px] text-stone-700"><i class="fa-solid fa-check text-emerald-500"></i> Que los números se vean completos</div>
+                            <div class="flex items-center gap-2 text-[11px] text-stone-700"><i class="fa-solid fa-check text-emerald-500"></i> Buena iluminación</div>
+                            <div class="flex items-center gap-2 text-[11px] text-stone-700"><i class="fa-solid fa-check text-emerald-500"></i> Foto sin reflejos directos</div>
+                            <div class="flex items-center gap-2 text-[11px] text-stone-700"><i class="fa-solid fa-check text-emerald-500"></i> Enfocar bien el medidor</div>
+                        </div>
+
+                        <button type="button" class="btn-upload w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm">Tomar foto o adjuntar imagen</button>
+                    </div>
+
+                    <!-- Estado: Con foto -->
+                    <div id="state-with-photo" class="hidden space-y-3">
+                        <p class="text-[11px] text-stone-500">Foto cargada con éxito. Revisa que se vea claramente.</p>
+                        <div class="h-32 rounded-lg overflow-hidden border-2 border-emerald-400 bg-stone-100 flex items-center justify-center">
+                            <img id="preview-image" src="" alt="Vista previa" class="max-h-full max-w-full object-contain">
+                        </div>
+                        <div class="flex flex-col items-center gap-1 pb-1">
+                            <button type="button" class="btn-upload text-indigo-800 text-[11px] font-bold underline flex items-center gap-1 bg-transparent border-none">
+                                <i class="fa-solid fa-camera"></i> Cambiar foto
+                            </button>
+                        </div>
+                        <button id="btn-process-image" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm">Procesar imagen</button>
+                    </div>
+                </div>
+            </template>
+
+            <template id="tpl-meter-step-4a">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium"><span>Paso 4 de 4</span></div>
+                    <div class="w-full bg-emerald-600 h-1.5 rounded-full overflow-hidden"></div>
+                    <div class="text-center pt-2">
+                        <p class="text-[11px] text-stone-600 mb-2">Hemos detectado el siguiente consumo:</p>
+                        <div class="bg-stone-100 rounded-xl py-4 mx-4"><span class="text-4xl font-extrabold text-indigo-900">3.0 <span class="text-xl">m³</span></span></div>
+                        <p class="text-xs font-bold text-stone-800 mt-4 mb-2">¿Es correcto el consumo detectado?</p>
+                    </div>
+                    <div class="space-y-2">
+                        <button class="confirm-btn w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm">Sí, es correcto</button>
+                        <button class="manual-btn w-full bg-white text-indigo-900 border border-indigo-900 font-bold py-2.5 rounded-lg transition-colors hover:bg-stone-50">No, corregir manualmente</button>
+                    </div>
+                </div>
+            </template>
+
+
+            <!-- ====== FLUJO 3: RECONEXIÓN ====== -->
+            
+            <template id="tpl-reconnect-step-1">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <p class="text-[13.5px] text-stone-800 font-medium mb-1 pb-3 border-b border-stone-100">
+                        Claro. Para solicitar reconexión de tu servicio, es necesario que aceptes nuestras políticas de privacidad y los términos del servicio.
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium pt-1">
+                        <span>Paso 1 de 3</span>
+                    </div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-emerald-600 h-full w-1/3 rounded-full"></div>
+                    </div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold">
+                        <i class="fa-regular fa-clipboard"></i>
+                        <h3>Políticas de privacidad y términos</h3>
+                    </div>
+                    <p class="text-[11px] text-stone-500 leading-tight">Para continuar con tu solicitud, debes aceptar nuestras políticas de privacidad y los términos del servicio.</p>
+                    
+                    <div class="mt-3 p-3 bg-stone-50 border border-stone-200 rounded-lg flex justify-between items-center cursor-pointer hover:bg-stone-100 transition-colors">
+                        <div class="flex items-center gap-2 text-indigo-900">
+                            <i class="fa-regular fa-file-lines text-lg"></i>
+                            <span class="text-xs font-medium leading-tight">Políticas de privacidad del servicio</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-stone-400 text-xs"></i>
+                    </div>
+
+                    <label class="flex items-start gap-2 pt-2 cursor-pointer">
+                        <input type="checkbox" class="policy-cb mt-0.5 w-4 h-4 text-emerald-600 rounded border-stone-300 focus:ring-emerald-500">
+                        <span class="text-[11.5px] text-stone-800 font-medium">He leído y acepto las Políticas de privacidad y los términos del servicio</span>
+                    </label>
+
+                    <button disabled class="continue-btn w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm mt-2 opacity-50 cursor-not-allowed">
+                        Aceptar y continuar
+                    </button>
+                </div>
+            </template>
+
+            <template id="tpl-reconnect-step-2">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium">
+                        <span>Paso 2 de 3</span>
+                    </div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-emerald-600 h-full w-2/3 rounded-full"></div>
+                    </div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold">
+                        <i class="fa-regular fa-clipboard"></i>
+                        <h3>Validación de identidad</h3>
+                    </div>
+                    <p class="text-xs text-stone-500">Verificación requerida para consultar facturas</p>
+
+                    <form class="step2-form space-y-3 pt-2">
+                        <div>
+                            <label class="block text-[11px] font-bold text-stone-800 mb-1">Código de cliente *</label>
+                            <input type="text" placeholder="Máx. 6 dígitos" maxlength="6" pattern="\d{1,6}" required class="client-input w-full px-3 py-2 border border-emerald-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-stone-800 mb-1">Número de DNI o CCI *</label>
+                            <input type="text" placeholder="Máx. 8 dígitos" maxlength="8" pattern="\d{1,8}" required class="dni-input w-full px-3 py-2 border border-stone-300 bg-stone-50 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-emerald-600">
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm">
+                            Validar
+                        </button>
+                    </form>
+                </div>
+            </template>
+
+            <!-- Loader Reconnection exacto al diseño solicitado -->
+            <template id="tpl-reconnect-loader">
+                <div class="temp-loading flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium">
+                        <span>Paso 2 de 3</span>
+                    </div>
+                    <div class="w-full bg-stone-200 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-emerald-500 h-full w-2/3 rounded-full"></div>
+                    </div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold pt-1">
+                        <i class="fa-regular fa-clipboard"></i>
+                        <h3>Carga de datos del cliente</h3>
+                    </div>
+                    <p class="text-[11.5px] text-stone-500">Procesando información...</p>
+                    
+                    <div class="flex flex-col items-center justify-center py-5">
+                        <div class="relative w-16 h-16 flex items-center justify-center mb-3">
+                            <div class="absolute inset-0 border-4 border-stone-100 rounded-full"></div>
+                            <div class="absolute inset-0 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                        <p class="text-stone-700 font-bold text-sm">Cargando datos del cliente...</p>
+                        <p class="text-stone-400 text-xs mt-0.5">Por favor espere un momento</p>
+                    </div>
+                </div>
+            </template>
+
+            <template id="tpl-reconnect-step-3">
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <div class="flex justify-between items-center text-xs text-stone-500 font-medium">
+                        <span>Paso 3 de 3</span>
+                    </div>
+                    <div class="w-full bg-emerald-600 h-1.5 rounded-full overflow-hidden"></div>
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold">
+                        <i class="fa-regular fa-clipboard"></i>
+                        <h3>Solicitud de reconexión</h3>
+                    </div>
+                    
+                    <div class="bg-green-100/50 text-green-700 text-xs font-bold py-2 px-3 rounded flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-circle-check text-green-500"></i> Datos validados correctamente
+                    </div>
+
+                    <div class="space-y-3 pt-2 text-xs">
+                        <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                            <span class="text-stone-500 flex items-center gap-2"><i class="fa-solid fa-fire-flame-simple w-4 text-center"></i> Servicio</span>
+                            <span class="font-bold text-stone-800">Gas natural</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                            <span class="text-stone-500 flex items-center gap-2"><i class="fa-regular fa-user w-4 text-center"></i> Código de cliente</span>
+                            <span class="font-bold text-stone-800 display-client-code">99887766</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                            <span class="text-stone-500 flex items-center gap-2"><i class="fa-regular fa-calendar w-4 text-center"></i> Estado actual</span>
+                            <span class="bg-orange-100 text-orange-700 font-bold px-2 py-0.5 rounded text-[10px]">Suspendido</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                            <span class="text-stone-500 flex items-center gap-2"><i class="fa-regular fa-credit-card w-4 text-center"></i> Motivo de suspensión</span>
+                            <span class="font-bold text-stone-800">Deuda</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-stone-500 flex items-center gap-2"><i class="fa-regular fa-credit-card w-4 text-center text-blue-500"></i> Importe pendiente</span>
+                            <span class="font-bold text-stone-800 text-sm">S/ 120.00</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 pt-2">
+                        <button class="btn-pay w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm">
+                            Pagar importe pendiente
+                        </button>
+                        <button class="btn-request w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm">
+                            Solicitar reconexión
+                        </button>
+                    </div>
+                </div>
+            </template>
+
+        </div>
+
+        <!-- WhatsApp Footer / Input Dinámico -->
+        <div class="bg-[#f0f0f0] px-3 py-2.5 flex items-center gap-3 border-t border-stone-300">
+            <i class="fa-regular fa-face-smile text-stone-500 text-xl cursor-pointer"></i>
+            <input type="text" id="user-chat-input" placeholder="Escribe un mensaje..." class="flex-1 bg-white rounded-lg px-3 py-2 text-sm text-stone-700 border border-stone-200 focus:outline-none focus:border-emerald-500">
+            <i class="fa-solid fa-paperclip text-stone-500 text-lg cursor-pointer"></i>
+            <div id="send-btn" class="w-10 h-10 bg-[#075e54] rounded-full flex items-center justify-center text-white text-sm shadow cursor-pointer transition-colors hover:bg-emerald-700">
+                <i class="fa-solid fa-paper-plane"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Lógica de Interactividad Multiflujo -->
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const fileUploadInput = document.getElementById('meter-photo-upload');
+        
+        let currentFlow = null; // null, 'RECEIPT', 'METER', 'RECONNECT'
+        let meterData = { client: '', consumption: '3.0' }; 
+        let reconnectData = { client: '99887766' };
+        let currentCardRef = null; 
+
+        // === Utilidades de Chat ===
+        function scrollChatToBottom() {
+            setTimeout(() => { chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' }); }, 50);
+        }
+
+        function addUserMessage(text) {
+            chatContainer.insertAdjacentHTML('beforeend', `<div class="bg-[#dcf8c6] p-3 rounded-lg shadow-sm max-w-[75%] ml-auto text-stone-800 my-4 animate-fade-in"><p>${text}</p></div>`);
+            scrollChatToBottom();
+        }
+
+        function addBotMessage(text) {
+            chatContainer.insertAdjacentHTML('beforeend', `<div class="bg-white p-3 rounded-lg shadow-sm max-w-[85%] text-stone-800 my-4 animate-fade-in"><p>${text}</p></div>`);
+            scrollChatToBottom();
+        }
+
+        function showLoading(text, duration = 2000, callback) {
+            const loadingHTML = `
+            <div class="temp-loading flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                <div class="p-3 bg-indigo-50/50 rounded-lg flex items-center gap-3 text-indigo-900 text-xs font-medium">
+                    <i class="fa-solid fa-circle-notch fa-spin text-indigo-600 text-base"></i>
+                    <span>${text}</span>
+                </div>
+            </div>`;
+            chatContainer.insertAdjacentHTML('beforeend', loadingHTML);
+            scrollChatToBottom();
+
+            setTimeout(() => {
+                const loadingEls = document.querySelectorAll('.temp-loading');
+                loadingEls.forEach(el => el.classList.add('hidden'));
+                if(callback) callback();
+            }, duration);
+        }
+
+        // === Enrutador Multiflujo ===
+        function handleUserSend() {
+            const text = userInput.value.trim();
+            if (!text) return;
+            
+            userInput.value = '';
+            addUserMessage(text);
+            const textLower = text.toLowerCase();
+
+            if (!currentFlow) {
+                const wantsReceipt = textLower.includes('descargar') || textLower.includes('recibo') || textLower.includes('factura');
+                const wantsMeter = textLower.includes('medidor') || textLower.includes('consumo') || textLower.includes('lectura') || textLower.includes('registrar');
+                const wantsReconnect = textLower.includes('reconectar') || textLower.includes('reconexión') || textLower.includes('servicio') || textLower.includes('corte');
+                const wantsExit = textLower.includes('no') || textLower.includes('todo') || textLower.includes('gracias') || textLower.includes('listo');
+
+                if (wantsReceipt) {
+                    currentFlow = 'RECEIPT';
+                    setTimeout(() => triggerReceiptStep1(), 600);
+                } else if (wantsMeter) {
+                    currentFlow = 'METER';
+                    setTimeout(() => triggerMeterStep1(), 600);
+                } else if (wantsReconnect) {
+                    currentFlow = 'RECONNECT';
+                    setTimeout(() => triggerReconnectStep1(), 600);
+                } else if (wantsExit) {
+                    setTimeout(() => addBotMessage("😊 ¡Perfecto! Me alegra haberte ayudado. Recuerda que puedes escribirme cuando necesites. 💚 ¡Que tengas un excelente día!"), 600);
+                } else {
+                    setTimeout(() => addBotMessage("Por favor, indícame qué operación deseas realizar en una frase corta, como 'descargar recibo', 'registrar medidor' o 'reconexión de servicio'"), 600);
+                }
+            }
+        }
+
+        userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleUserSend(); });
+        sendBtn.addEventListener('click', handleUserSend);
+
+        function applyInputRestrictions(card) {
+            const clientInput = card.querySelector('.client-input');
+            const dniInput = card.querySelector('.dni-input');
+            if (clientInput) clientInput.addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6); });
+            if (dniInput) dniInput.addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 8); });
+        }
+
+
+        // ==========================================
+        // LÓGICA FLUJO 1: RECIBOS
+        // ==========================================
+        function triggerReceiptStep1() {
+            const template = document.getElementById('tpl-receipt-step-1').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+            applyInputRestrictions(card);
+            card.querySelector('.step1-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                card.classList.add('hidden');
+                triggerReceiptStep2();
+            });
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        function triggerReceiptStep2() {
+            const template = document.getElementById('tpl-receipt-step-2').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+            setTimeout(() => { card.classList.add('hidden'); triggerReceiptStep3(); }, 2000);
+        }
+
+        function triggerReceiptStep3() {
+            const template = document.getElementById('tpl-receipt-step-3').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+            const checkboxes = card.querySelectorAll('.receipt-cb');
+            const downloadBtn = card.querySelector('.download-btn');
+
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    const label = cb.closest('label');
+                    cb.checked ? label.classList.add('bg-emerald-50/60', 'border-emerald-100') : label.classList.remove('bg-emerald-50/60', 'border-emerald-100');
+                    const selected = Array.from(checkboxes).filter(c => c.checked);
+                    downloadBtn.innerHTML = `<i class="fa-solid fa-download"></i> Descargar seleccionados (${selected.length})`;
+                    downloadBtn.disabled = selected.length === 0;
+                    selected.length === 0 ? downloadBtn.classList.add('opacity-50', 'cursor-not-allowed') : downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                });
+            });
+
+            downloadBtn.addEventListener('click', () => {
+                const selected = Array.from(checkboxes).filter(c => c.checked);
+                card.classList.add('hidden');
+                triggerReceiptFinal(selected);
+            });
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        function triggerReceiptFinal(selectedBoxes) {
+            let pdfsHtml = '';
+            selectedBoxes.forEach(box => {
+                const fileName = box.value.replace(/\s|#/g, '_') + '.pdf';
+                pdfsHtml += `
+                    <div class="bg-stone-50 border border-stone-200 p-2 rounded-xl flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <div class="w-10 h-10 min-w-[40px] bg-red-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">PDF</div>
+                            <p class="text-xs font-semibold text-stone-800 truncate" title="${fileName}">${fileName}</p>
+                        </div>
+                        <div class="w-8 h-8 min-w-[32px] bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 cursor-pointer"><i class="fa-solid fa-arrow-down text-xs"></i></div>
+                    </div>`;
+            });
+
+            const combinedBubble = document.createElement('div');
+            combinedBubble.className = "bg-white p-3 rounded-lg shadow-sm max-w-[85%] text-stone-800 my-4 animate-fade-in";
+            combinedBubble.innerHTML = `
+                <p class="mb-3 font-medium">Aquí tienes tus recibos:</p>
+                ${pdfsHtml}
+                <p class="mt-3">¿Hay algo más en lo que puedo ayudarte? Por favor, indícame qué operación deseas realizar en una frase corta, como por ejemplo 'descargar recibo', 'registrar medidor' o 'reconexión'.</p>
+            `;
+            chatContainer.appendChild(combinedBubble);
+            scrollChatToBottom();
+            currentFlow = null; 
+        }
+
+        // ==========================================
+        // LÓGICA FLUJO 2: MEDIDOR 
+        // ==========================================
+        function triggerMeterStep1() {
+            const template = document.getElementById('tpl-meter-step-1').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+            const checkbox = card.querySelector('.policy-cb');
+            const btn = card.querySelector('.continue-btn');
+
+            checkbox.addEventListener('change', () => {
+                btn.disabled = !checkbox.checked;
+                checkbox.checked ? btn.classList.remove('opacity-50', 'cursor-not-allowed') : btn.classList.add('opacity-50', 'cursor-not-allowed');
+            });
+            btn.addEventListener('click', () => { card.classList.add('hidden'); triggerMeterStep2(); });
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        function triggerMeterStep2() {
+            const template = document.getElementById('tpl-meter-step-2').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+            applyInputRestrictions(card);
+
+            card.querySelector('.step2-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                meterData.client = card.querySelector('.client-input').value;
+                card.classList.add('hidden');
+                showLoading("Validando datos...", 1500, triggerMeterStep3);
+            });
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        function triggerMeterStep3() {
+            const template = document.getElementById('tpl-meter-step-3').content.cloneNode(true);
+            currentCardRef = template.querySelector('.flow-card');
+            
+            const uploadBtns = currentCardRef.querySelectorAll('.btn-upload');
+            uploadBtns.forEach(btn => { btn.addEventListener('click', () => { fileUploadInput.click(); }); });
+
+            currentCardRef.querySelector('#btn-process-image').addEventListener('click', () => {
+                currentCardRef.classList.add('hidden');
+                showLoading("Analizando imagen con IA...", 2500, triggerMeterStep4a);
+            });
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        fileUploadInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0] && currentFlow === 'METER' && currentCardRef) {
+                const file = e.target.files[0];
+                const imageURL = URL.createObjectURL(file);
+                currentCardRef.querySelector('#state-no-photo').classList.add('hidden');
+                const stateWithPhoto = currentCardRef.querySelector('#state-with-photo');
+                stateWithPhoto.classList.remove('hidden');
+                stateWithPhoto.querySelector('#preview-image').src = imageURL;
+                scrollChatToBottom();
+            }
+        });
+
+        function triggerMeterStep4a() {
+            const template = document.getElementById('tpl-meter-step-4a').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+
+            card.querySelector('.confirm-btn').addEventListener('click', () => {
+                meterData.consumption = "3.0"; 
+                card.classList.add('hidden');
+                triggerMeterFinal();
+            });
+            card.querySelector('.manual-btn').addEventListener('click', () => {
+                card.classList.add('hidden');
+                triggerMeterStep4b();
+            });
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        function triggerMeterStep4b() {
+            const template = document.getElementById('tpl-meter-step-4b').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+
+            card.querySelector('.step4b-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                meterData.consumption = card.querySelector('.val-input').value;
+                card.classList.add('hidden');
+                showLoading("Actualizando lectura...", 1000, triggerMeterFinal);
+            });
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        function triggerMeterFinal() {
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('es-ES', { day:'numeric', month:'short', year:'numeric'}).replace('.','');
+            const timeStr = today.toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' }).replace(':', ':');
+
+            const finalHtml = `
+                <div class="bg-white p-3 rounded-lg shadow-sm max-w-[85%] text-stone-800 my-4 animate-fade-in space-y-2">
+                    <p>🎉 ¡Listo! Tu lectura ha sido registrada con éxito en nuestro sistema. Aquí tienes tu comprobante de registro virtual.</p>
+                    <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-xs mt-2">
+                        <div class="flex items-center gap-2 text-emerald-700 font-bold mb-2"><i class="fa-solid fa-check"></i> Cálidda - Registro Exitoso</div>
+                        <div class="space-y-1 text-stone-600">
+                            <p>Consumo: <span class="font-bold text-stone-800">${meterData.consumption} m³</span></p>
+                            <p>Fecha: <span class="font-bold text-stone-800">${dateStr} • ${timeStr}</span></p>
+                            <p>Código cliente: <span class="font-bold text-stone-800">${meterData.client}</span></p>
+                        </div>
+                    </div>
+                    <p class="mt-3 pt-2 border-t border-stone-100">¿Hay algo más en lo que puedo ayudarte? Por favor, indícame qué operación deseas realizar en una frase corta, como 'descargar recibo', 'registrar medidor' o 'reconexión'.</p>
+                </div>
+            `;
+            chatContainer.insertAdjacentHTML('beforeend', finalHtml);
+            scrollChatToBottom();
+            fileUploadInput.value = ""; 
+            currentFlow = null; 
+        }
+
+        // ==========================================
+        // LÓGICA FLUJO 3: RECONEXIÓN
+        // ==========================================
+        function triggerReconnectStep1() {
+            const template = document.getElementById('tpl-reconnect-step-1').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+            const checkbox = card.querySelector('.policy-cb');
+            const btn = card.querySelector('.continue-btn');
+
+            checkbox.addEventListener('change', () => {
+                btn.disabled = !checkbox.checked;
+                checkbox.checked ? btn.classList.remove('opacity-50', 'cursor-not-allowed') : btn.classList.add('opacity-50', 'cursor-not-allowed');
+            });
+
+            btn.addEventListener('click', () => {
+                card.classList.add('hidden');
+                triggerReconnectStep2();
+            });
+
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        function triggerReconnectStep2() {
+            const template = document.getElementById('tpl-reconnect-step-2').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+            applyInputRestrictions(card);
+
+            card.querySelector('.step2-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                reconnectData.client = card.querySelector('.client-input').value;
+                card.classList.add('hidden');
+                
+                // Mostrar loader custom de reconexión con el spinner circular exacto
+                const loaderTpl = document.getElementById('tpl-reconnect-loader').content.cloneNode(true);
+                chatContainer.appendChild(loaderTpl);
+                scrollChatToBottom();
+                
+                setTimeout(() => {
+                    document.querySelector('.temp-loading').classList.add('hidden');
+                    triggerReconnectStep3();
+                }, 2500);
+            });
+
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        function triggerReconnectStep3() {
+            const template = document.getElementById('tpl-reconnect-step-3').content.cloneNode(true);
+            const card = template.querySelector('.flow-card');
+            card.querySelector('.display-client-code').innerText = reconnectData.client;
+
+            // Botón Pagar
+            card.querySelector('.btn-pay').addEventListener('click', () => {
+                card.classList.add('hidden');
+                addUserMessage("Quiero pagar mi importe pendiente.");
+                setTimeout(() => showReconnectPayCard(), 600);
+            });
+
+            // Botón Solicitar
+            card.querySelector('.btn-request').addEventListener('click', () => {
+                card.classList.add('hidden');
+                addUserMessage("Solicitar reconexión");
+                setTimeout(() => triggerReconnectSuccess(), 600);
+            });
+
+            chatContainer.appendChild(template);
+            scrollChatToBottom();
+        }
+
+        function showReconnectPayCard() {
+            addBotMessage("He generado tu link de pago. Realiza el pago para continuar con el proceso de reconexión.");
+            
+            const payHtml = `
+                <div class="flow-card bg-white rounded-xl shadow-md p-4 border border-stone-200 space-y-3 my-4 animate-fade-in">
+                    <div class="flex items-center gap-2 text-indigo-950 font-bold border-b border-stone-100 pb-2">
+                        <i class="fa-regular fa-credit-card"></i> Detalle de pago
+                    </div>
+                    
+                    <div class="space-y-3 pt-2 text-xs">
+                        <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                            <span class="text-stone-500 flex items-center gap-2"><i class="fa-solid fa-fire-flame-simple w-4 text-center"></i> Concepto</span>
+                            <span class="font-bold text-stone-800">Importe pendiente</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                            <span class="text-stone-500 flex items-center gap-2"><i class="fa-regular fa-user w-4 text-center"></i> Código de cliente</span>
+                            <span class="font-bold text-stone-800">${reconnectData.client}</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                            <span class="text-stone-500 flex items-center gap-2"><i class="fa-regular fa-credit-card w-4 text-center"></i> Método de pago</span>
+                            <span class="font-bold text-stone-800">Pago en línea</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-stone-500 flex items-center gap-2"><i class="fa-regular fa-credit-card w-4 text-center text-blue-500"></i> Importe a pagar</span>
+                            <span class="font-bold text-blue-600 text-sm">S/ 120.00</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="alert('Simulación: Redirigiendo a pasarela de pago...')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm mb-2 flex justify-center items-center gap-2">
+                            Ir a pagar <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </button>
+                        <p class="text-[10px] text-center text-stone-400 mb-3">Serás redirigido a la pasarela de pago segura.</p>
+                        
+                        <div class="bg-blue-50 border border-blue-100 text-blue-800 p-2 text-[10px] rounded flex items-start gap-1.5">
+                            <i class="fa-regular fa-lightbulb mt-0.5"></i> Una vez confirmado el pago, podrás solicitar la reconexión de tu servicio.
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatContainer.insertAdjacentHTML('beforeend', payHtml);
+            
+            setTimeout(() => {
+                const bubble = document.createElement('div');
+                bubble.className = "bg-white p-3 rounded-lg shadow-sm max-w-[85%] text-stone-800 my-4 animate-fade-in";
+                bubble.innerHTML = `<p>¿Hay algo más en lo que puedo ayudarte? Por favor, indícame qué operación deseas realizar, como 'Descargar recibo', 'Registrar medidor' o 'Reconexión de servicio'.</p>`;
+                chatContainer.appendChild(bubble);
+                scrollChatToBottom();
+                currentFlow = null;
+            }, 800);
+            
+            scrollChatToBottom();
+        }
+
+        function triggerReconnectSuccess() {
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('es-ES', { day:'numeric', month:'long', year:'numeric'});
+
+            const finalHtml = `
+                <div class="bg-white p-3 rounded-lg shadow-sm max-w-[90%] text-stone-800 my-4 animate-fade-in space-y-2">
+                    <p class="mb-3 font-medium">¡Listo! Tu solicitud de reconexión ha sido enviada con éxito. Aquí tienes el resumen y detalle de tu solicitud.</p>
+                    
+                    <div class="border border-stone-200 rounded-xl overflow-hidden text-xs">
+                        <div class="bg-stone-50 px-3 py-2 border-b border-stone-200">
+                            <div class="flex items-center gap-1.5 text-green-600 font-bold mb-1 text-[11px]">
+                                <i class="fa-solid fa-check"></i> Solicitud procesada
+                            </div>
+                            <div class="flex items-center gap-1.5 text-indigo-950 font-bold text-sm">
+                                <i class="fa-solid fa-file-invoice"></i> Solicitud de reconexión enviada
+                            </div>
+                        </div>
+                        <div class="p-3 space-y-3 bg-white">
+                            <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                                <span class="text-stone-500">Número de solicitud</span>
+                                <span class="font-bold text-stone-800">SOL-2024-00845</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                                <span class="text-stone-500">Servicio</span>
+                                <span class="font-bold text-stone-800">Gas natural</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                                <span class="text-stone-500">Código de cliente</span>
+                                <span class="font-bold text-stone-800">${reconnectData.client}</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-stone-100 pb-2">
+                                <span class="text-stone-500">Fecha de solicitud</span>
+                                <span class="font-bold text-stone-800">${dateStr}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-stone-500">Estado</span>
+                                <span class="bg-orange-100 text-orange-700 font-bold px-2 py-0.5 rounded text-[10px]">En proceso</span>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-100 text-blue-800 p-2 text-[10px] rounded flex items-start gap-1.5 mt-2">
+                                <i class="fa-solid fa-circle-info mt-0.5"></i> Un técnico se comunicará contigo en las próximas 24-48 horas para coordinar la visita.
+                            </div>
+                            
+                            <button onclick="handleUserSendFallback()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg transition-colors shadow-sm mt-3">
+                                Volver al inicio
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="mt-3 pt-2 border-t border-stone-100">¿Hay algo más en lo que puedo ayudarte? Por favor, indícame qué operación deseas realizar en una frase corta, como 'Descargar Recibo', 'Registrar Medidor' o 'Reconexión de Servicio'.</p>
+                </div>
+            `;
+            
+            chatContainer.insertAdjacentHTML('beforeend', finalHtml);
+            scrollChatToBottom();
+            currentFlow = null; 
+        }
+
+        function handleUserSendFallback() {
+            userInput.value = "gracias, eso es todo";
+            handleUserSend();
+        }
+
+    </script>
+</body>
+</html>
