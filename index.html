@@ -68,19 +68,19 @@
         <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 text-sm pb-10">
             <!-- Mensaje Inicial Bot -->
             <div class="bg-white p-3 rounded-lg shadow-sm max-w-[85%] text-stone-800 relative mt-2 animate-fade-in">
-                <p>¡Hola! Soy Clara, tu asistente de CrediCálidda. 😉<br><br>Puedo ayudarte a encontrar artefactos y productos que puedes financiar. ¿En qué te gustaría que te ayude hoy?</p>
+                <p>¡Hola! Soy Clara, tu asistente de CrediCálidda. 😉<br><br>Puedo ayudarte a encontrar artefactos, tecnología y otros productos que puedes financiar. ¿En qué te gustaría que te ayude hoy?</p>
                 <span class="text-[10px] text-stone-400 absolute bottom-1 right-2">14:08</span>
             </div>
         </div>
 
-        <!-- SIMULADOR PÁGINA EXTERNA BIOMÉTRICA (NUEVO) -->
+        <!-- SIMULADOR PÁGINA EXTERNA BIOMÉTRICA -->
         <div id="external-sim-overlay" class="absolute inset-0 z-50 bg-white hidden flex-col items-center justify-center">
             <div class="text-crediblue text-6xl mb-6"><i class="fa-solid fa-face-viewfinder animate-pulse"></i></div>
             <h2 class="text-xl font-bold text-stone-800 mb-2">Validando identidad...</h2>
             <p class="text-sm text-stone-500 text-center px-8">Estamos conectando con el servicio de validación biométrica. Por favor, espera unos segundos.</p>
         </div>
 
-        <!-- MODAL DE CONFIRMACIÓN DE COMPRA - IMAGEN 5 (NUEVO) -->
+        <!-- MODAL DE CONFIRMACIÓN DE COMPRA -->
         <div id="confirm-purchase-modal" class="absolute inset-0 z-50 bg-black/40 hidden flex-col justify-center items-center p-4">
             <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl flex flex-col items-center text-center animate-fade-in">
                 <div class="w-14 h-14 bg-sky-50 text-crediblue rounded-full flex items-center justify-center text-2xl mb-4">
@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <!-- CAPA MODAL: Detalle de Producto -->
+        <!-- CAPA MODAL: Detalle de Producto (REFRIGERADORA) -->
         <div id="product-modal" class="absolute inset-0 z-40 bg-black/40 hidden flex-col justify-end">
             <div class="bg-white w-full h-[90%] rounded-t-3xl shadow-2xl flex flex-col animate-slide-up">
                 
@@ -167,13 +167,71 @@
             </div>
         </div>
 
+        <!-- CAPA MODAL: Detalle de Producto (TECNOLOGÍA) -->
+        <div id="product-modal-tech" class="absolute inset-0 z-40 bg-black/40 hidden flex-col justify-end">
+            <div class="bg-white w-full h-[90%] rounded-t-3xl shadow-2xl flex flex-col animate-slide-up">
+                
+                <div class="p-4 border-b border-stone-200 flex justify-between items-center bg-stone-50 rounded-t-3xl">
+                    <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Detalle de producto</span>
+                    <i id="btn-close-modal-tech" class="fa-solid fa-xmark text-stone-400 cursor-pointer text-xl p-2 hover:text-stone-600 transition-colors"></i>
+                </div>
+                
+                <div class="p-5 flex-1 overflow-y-auto pb-8">
+                    <div class="w-full h-56 bg-white rounded-xl mb-4 flex items-center justify-center border border-stone-100 p-2 shadow-sm">
+                        <img src="image_020baf.png" class="max-h-full object-contain transition-opacity duration-200">
+                    </div>
+
+                    <div class="text-center mb-4 text-[11px] text-stone-600 font-medium flex items-center justify-center gap-1.5 bg-blue-50/50 py-1.5 rounded-full w-max mx-auto px-4">
+                        <i class="fa-solid fa-shield-halved text-crediblue"></i> Producto nuevo y 100% original
+                    </div>
+
+                    <div class="flex items-center gap-2 mb-1">
+                        <h3 class="font-bold text-stone-800 text-xl leading-tight">iPhone 14</h3>
+                        <span class="bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-full">128 GB</span>
+                    </div>
+                    
+                    <p class="text-[11px] text-stone-500">Precio al contado</p>
+                    <p class="font-black text-2xl text-stone-800 mb-4">S/ 3,699</p>
+
+                    <div class="bg-green-50 border border-green-100 rounded-xl p-4 mb-5 relative shadow-sm">
+                        <i class="fa-solid fa-circle-info absolute top-3 right-3 text-green-600"></i>
+                        <p class="text-[11px] text-stone-600 mb-0.5">Desde:</p>
+                        <p class="font-bold text-xl text-green-700 mb-0.5">S/ 155 al mes</p>
+                        <p class="text-[11px] font-bold text-stone-800">Con CrediCálidda</p>
+                        <p class="text-[9px] text-stone-500 mt-0.5">Sujeto a evaluación crediticia</p>
+                    </div>
+
+                    <ul class="space-y-3 mb-6 text-[12px] text-stone-600">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-mobile-screen-button w-5 text-center text-stone-400"></i> Pantalla Super Retina XDR de 6.1"</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-camera w-5 text-center text-stone-400"></i> Cámara principal de 12 MP</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-camera-rotate w-5 text-center text-stone-400"></i> Cámara frontal TrueDepth de 12 MP</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-microchip w-5 text-center text-stone-400"></i> Chip A15 Bionic</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-battery-full w-5 text-center text-stone-400"></i> Batería para todo el día</li>
+                        <li class="flex items-center gap-3"><i class="fa-brands fa-apple w-5 text-center text-stone-400 text-lg"></i> iOS 17</li>
+                    </ul>
+
+                    <div class="bg-blue-50/70 border border-blue-100 text-blue-800 p-3 rounded-xl flex items-start gap-3 mb-5 text-xs">
+                        <i class="fa-solid fa-arrow-trend-up mt-0.5 text-crediblue text-lg"></i>
+                        <div>
+                            <p class="font-bold">Financia hasta en 24 meses</p>
+                            <p class="text-[10px] opacity-80 mt-0.5 leading-tight">Sujeto a evaluación y condiciones de CrediCálidda.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2 mt-auto">
+                        <button id="btn-back-product-tech" class="w-1/3 bg-white text-crediblue border border-crediblue font-bold py-3.5 rounded-xl text-sm transition-colors hover:bg-sky-50">Volver</button>
+                        <button id="btn-buy-product-tech" class="w-2/3 bg-crediblue hover-bg-crediblue text-white font-bold py-3.5 rounded-xl text-sm transition-colors shadow-md">Quiero este producto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ========================================== -->
         <!-- PLANTILLAS REUTILIZABLES (Invisibles)      -->
         <!-- ========================================== -->
         <div id="templates" class="hidden">
             
-            <!-- ====== PASO 1 al 8 Anteriores (Manteniendo tu código original intacto) ====== -->
-            <!-- ====== PASO 1: Formulario de Evaluación ====== -->
+            <!-- ====== PASO 1 al 2 Mantienen misma estructura ====== -->
             <template id="tpl-eval-form">
                 <div class="flow-card bg-white rounded-2xl shadow-md p-5 border border-stone-200 space-y-4 my-4 animate-fade-in max-w-[95%] mx-auto">
                     <div class="flex items-start gap-3">
@@ -210,7 +268,6 @@
                 </div>
             </template>
 
-            <!-- ====== PASO 2: Loader de Evaluación ====== -->
             <template id="tpl-eval-loading">
                 <div class="flow-card bg-white rounded-2xl shadow-md p-5 border border-stone-200 space-y-4 my-4 animate-fade-in max-w-[95%] mx-auto">
                     <div class="flex items-start gap-3">
@@ -253,7 +310,7 @@
                 </div>
             </template>
 
-            <!-- ====== PASO 3: Lista de Productos ====== -->
+            <!-- ====== PASO 3: Lista de Productos (REFRIGERADORAS) ====== -->
             <template id="tpl-product-list">
                 <div class="space-y-3 my-4 w-full px-1 animate-fade-in product-list-container">
                     <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-3 flex flex-col gap-3">
@@ -289,7 +346,46 @@
                 </div>
             </template>
 
-            <!-- ====== PASO 5: Resumen de Orden ====== -->
+            <!-- ====== PASO 3: Lista de Productos (TECNOLOGÍA) ====== -->
+            <template id="tpl-product-list-tech">
+                <div class="space-y-4 my-4 w-full px-1 animate-fade-in product-list-container">
+                    
+                    <div class="bg-white rounded-3xl shadow-sm border border-stone-200 p-4 flex flex-col gap-4">
+                        <div class="flex gap-4">
+                            <div class="w-24 h-36 flex-shrink-0 flex items-center justify-center">
+                                <img src="image_0208ab.png" class="object-contain h-full">
+                            </div>
+                            <div class="flex-1 flex flex-col justify-center">
+                                <p class="text-[11px] font-black text-stone-900 uppercase tracking-wider mb-1">APPLE</p>
+                                <h4 class="font-bold text-stone-800 text-sm leading-tight mb-1">iPhone 16 128GB</h4>
+                                <p class="text-[11px] text-stone-500 flex items-center gap-1">Precio: <span class="font-bold text-stone-900">S/ 2,499</span> <span class="line-through text-stone-400 text-[10px]">S/ 2,999</span></p>
+                                <div class="bg-sky-50 text-crediblue text-[11px] font-bold px-3 py-1 rounded-lg inline-block w-max mt-2 mb-2">Desde: S/ 119 al mes</div>
+                                <a href="#" class="text-crediblue text-[13px] font-bold underline decoration-2 underline-offset-2 btn-view-details">Ver detalles</a>
+                            </div>
+                        </div>
+                        <button class="btn-buy-product-direct w-full bg-crediblue hover-bg-crediblue text-white font-bold py-3 rounded-xl text-sm transition-colors shadow-sm">Quiero este producto</button>
+                    </div>
+                    
+                    <div class="bg-white rounded-3xl shadow-sm border border-stone-200 p-4 flex flex-col gap-4">
+                        <div class="flex gap-4">
+                            <div class="w-24 h-36 flex-shrink-0 flex items-center justify-center">
+                                <img src="image_020baf.png" class="object-contain h-full">
+                            </div>
+                            <div class="flex-1 flex flex-col justify-center">
+                                <p class="text-[11px] font-black text-stone-900 uppercase tracking-wider mb-1">APPLE</p>
+                                <h4 class="font-bold text-stone-800 text-sm leading-tight mb-1">iPhone 14 128GB</h4>
+                                <p class="text-[11px] text-stone-500 flex items-center gap-1">Precio: <span class="font-bold text-stone-900">S/ 3,699</span> <span class="line-through text-stone-400 text-[10px]">S/ 3,799</span></p>
+                                <div class="bg-sky-50 text-crediblue text-[11px] font-bold px-3 py-1 rounded-lg inline-block w-max mt-2 mb-2">Desde: S/ 149 al mes</div>
+                                <a href="#" class="text-crediblue text-[13px] font-bold underline decoration-2 underline-offset-2 btn-view-details">Ver detalles</a>
+                            </div>
+                        </div>
+                        <button class="btn-buy-product-direct w-full bg-crediblue hover-bg-crediblue text-white font-bold py-3 rounded-xl text-sm transition-colors shadow-sm">Quiero este producto</button>
+                    </div>
+
+                </div>
+            </template>
+
+            <!-- ====== PASO 5: Resumen de Orden (REFRIGERADORAS) ====== -->
             <template id="tpl-order-summary">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 p-4 my-4 animate-fade-in max-w-[95%] mx-auto">
                     <p class="text-[11px] text-stone-500 mb-3 text-center">Revisa los detalles antes de continuar con tu solicitud.</p>
@@ -338,7 +434,59 @@
                 </div>
             </template>
 
-            <!-- ====== PASO 6: Verificación Teléfono ====== -->
+            <!-- ====== PASO 5: Resumen de Orden (TECNOLOGÍA) ====== -->
+            <template id="tpl-order-summary-tech">
+                <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 p-5 my-4 animate-fade-in max-w-[95%] mx-auto">
+                    <h2 class="font-black text-stone-900 text-lg mb-1">Confirmemos tu compra</h2>
+                    <p class="text-[11px] text-stone-500 mb-5">Revisa los detalles antes de continuar</p>
+                    
+                    <div class="bg-stone-50 rounded-2xl p-4 flex gap-4 items-center mb-4">
+                        <div class="w-12 h-16 flex-shrink-0 flex items-center justify-center">
+                            <img src="image_020bb2.png" class="object-contain h-full" style="clip-path: inset(16% 75% 72% 10%); transform: scale(5); object-position: left top;">
+                            <!-- Recorte visual CSS para emular el thumbnail exacto desde la imagen 3 -->
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-stone-900 text-sm">iPhone 14</h4>
+                            <p class="text-[11px] text-stone-500 mb-1">128 GB - Medianoche</p>
+                            <p class="font-bold text-stone-800 text-xs">Precio al contado: S/ 3,699</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-green-200 bg-green-50/40 rounded-2xl p-4 mb-4">
+                        <p class="text-[10px] font-bold text-stone-800 uppercase mb-1">DESDE:</p>
+                        <p class="text-stone-900"><span class="text-2xl font-black">S/ 245</span> <span class="text-[11px] font-medium">al mes con CrediCálidda</span></p>
+                        <p class="text-[9px] text-green-700 mt-1">Sujeto a evaluación crediticia</p>
+                    </div>
+
+                    <div class="border border-stone-200 rounded-2xl p-4 mb-4">
+                        <div class="flex items-center gap-2 text-crediblue font-bold text-sm mb-4">
+                            <i class="fa-solid fa-file-invoice-dollar"></i> Detalle de tu financiamiento
+                        </div>
+                        <div class="grid grid-cols-2 gap-y-4 gap-x-2 text-[11px]">
+                            <div><p class="text-stone-500 mb-0.5">Monto a financiar</p><p class="font-bold text-stone-900 text-[13px]">S/ 2,899</p></div>
+                            <div><p class="text-stone-500 mb-0.5">Cuota mensual</p><p class="font-bold text-stone-900 text-[13px]">S/ 245</p></div>
+                            <div><p class="text-stone-500 mb-0.5">Plazo referencial</p><p class="font-bold text-stone-900 text-[13px]">Hasta 24 meses</p></div>
+                            <div><p class="text-stone-500 mb-0.5">TEA referencial</p><p class="font-bold text-stone-900 text-[13px]">48.50%</p></div>
+                        </div>
+                    </div>
+
+                    <div class="border border-stone-200 rounded-2xl p-4 mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-sky-50 rounded-full flex items-center justify-center text-crediblue text-lg"><i class="fa-solid fa-truck"></i></div>
+                        <div>
+                            <p class="font-bold text-stone-900 text-xs">Entrega a domicilio</p>
+                            <p class="text-[10px] text-stone-500 mt-0.5">Se entregará en la dirección confirmada.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button id="btn-continue-req" class="w-full bg-crediblue hover-bg-crediblue text-white font-bold py-3.5 rounded-xl text-sm transition-colors shadow-md">Continuar con mi solicitud</button>
+                        <button class="btn-volver-resumen w-full bg-white text-crediblue border border-crediblue font-bold py-3.5 rounded-xl text-sm transition-colors hover:bg-sky-50">Volver</button>
+                    </div>
+                </div>
+            </template>
+
+
+            <!-- ====== MANTIENE PASOS DE VALIDACIÓN 6, 7 y 8 IDÉNTICOS ====== -->
             <template id="tpl-verification-phone">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 my-4 animate-fade-in max-w-[95%] mx-auto overflow-hidden">
                     <div class="p-4 border-b border-stone-100 bg-stone-50 flex items-center gap-2">
@@ -381,7 +529,6 @@
                 </div>
             </template>
 
-            <!-- ====== PASO 7: Verificación Correo ====== -->
             <template id="tpl-verification-email">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 my-4 animate-fade-in max-w-[95%] mx-auto overflow-hidden">
                     <div class="p-4 border-b border-stone-100 bg-stone-50 flex items-center gap-2">
@@ -424,7 +571,6 @@
                 </div>
             </template>
 
-            <!-- ====== PASO 8: Validación Biométrica ====== -->
             <template id="tpl-verification-biometric">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 my-4 animate-fade-in max-w-[95%] mx-auto overflow-hidden">
                     <div class="p-4 border-b border-stone-100 bg-stone-50 flex items-center gap-2">
@@ -447,20 +593,17 @@
                         </div>
 
                         <div class="border border-stone-200 rounded-xl mb-5 flex flex-col relative">
-                            <!-- Entidad emisora -->
                             <div class="p-4 flex flex-col items-center justify-center border-b border-stone-100 bg-white rounded-t-xl z-10">
                                 <i class="fa-solid fa-globe text-2xl text-stone-600 mb-1"></i>
                                 <h5 class="font-bold text-stone-800 text-sm">CrediCálidda</h5>
                                 <p class="text-[10px] text-stone-400">Entidad emisora</p>
                             </div>
                             
-                            <!-- Flechas conectoras centrales -->
                             <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-[9px] font-bold z-20 py-2 bg-white">
                                 <span class="text-crediblue flex items-center gap-1">Redirección <i class="fa-solid fa-arrow-right"></i></span>
                                 <span class="text-green-600 flex items-center gap-1"><i class="fa-solid fa-arrow-left"></i> Retorno seguro</span>
                             </div>
 
-                            <!-- Sitio de validación -->
                             <div class="p-4 flex flex-col items-center justify-center bg-sky-50/50 rounded-b-xl pt-6 z-10">
                                 <i class="fa-solid fa-expand text-2xl text-crediblue mb-1"></i>
                                 <h5 class="font-bold text-stone-800 text-sm">Sitio de validación</h5>
@@ -475,18 +618,13 @@
 
                         <div class="grid grid-cols-2 gap-3">
                             <button class="btn-cancel-flow w-full bg-white text-crediblue border border-crediblue font-bold py-2.5 rounded-xl text-sm transition-colors hover:bg-sky-50">Cancelar</button>
-                            <!-- ID Agregado para el evento biométrico -->
                             <button id="btn-start-bio" class="w-full bg-crediblue hover-bg-crediblue text-white font-bold py-2.5 rounded-xl text-sm transition-colors shadow-sm">Iniciar validación</button>
                         </div>
                     </div>
                 </div>
             </template>
 
-            <!-- ======================================================== -->
-            <!-- ====== NUEVAS PLANTILLAS (IMÁGENES 1 A LA 7) ====== -->
-            <!-- ======================================================== -->
-
-            <!-- ====== IMAGEN 1: Verificación Completada ====== -->
+            <!-- ====== MANTIENE PLANTILLAS DE IMÁGENES FINALES IDÉNTICAS ====== -->
             <template id="tpl-verif-success">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 my-4 animate-fade-in max-w-[95%] mx-auto overflow-hidden">
                     <div class="p-4 border-b border-stone-100 bg-stone-50 flex items-center gap-2">
@@ -510,7 +648,6 @@
                 </div>
             </template>
 
-            <!-- ====== IMAGEN 2: Confirmemos tu compra (Plan de financiamiento) ====== -->
             <template id="tpl-plan-financiamiento">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 my-4 animate-fade-in max-w-[95%] mx-auto overflow-hidden">
                     <div class="p-4 border-b border-stone-100 bg-stone-50 flex items-center gap-2">
@@ -527,7 +664,6 @@
                         <p class="text-[11px] text-stone-500 leading-tight mb-5">Selecciona el plazo que mejor se adapte a ti. Todos los planes incluyen evaluación crediticia.</p>
 
                         <div class="space-y-3 mb-6">
-                            <!-- Plan 1 -->
                             <label class="flex items-center gap-3 border-2 border-crediblue rounded-xl p-3 cursor-pointer bg-sky-50 transition-colors plan-option">
                                 <input type="radio" name="plan" checked class="w-4 h-4 text-crediblue focus:ring-crediblue accent-crediblue">
                                 <div>
@@ -538,7 +674,6 @@
                                     <p class="text-[10px] text-stone-500">24 meses · Total S/ 3,720</p>
                                 </div>
                             </label>
-                            <!-- Plan 2 -->
                             <label class="flex items-center gap-3 border border-stone-200 rounded-xl p-3 cursor-pointer hover:bg-stone-50 transition-colors plan-option">
                                 <input type="radio" name="plan" class="w-4 h-4 text-crediblue focus:ring-crediblue accent-crediblue">
                                 <div>
@@ -546,7 +681,6 @@
                                     <p class="text-[10px] text-stone-500">36 meses · Total S/ 4,644</p>
                                 </div>
                             </label>
-                            <!-- Plan 3 -->
                             <label class="flex items-center gap-3 border border-stone-200 rounded-xl p-3 cursor-pointer hover:bg-stone-50 transition-colors plan-option">
                                 <input type="radio" name="plan" class="w-4 h-4 text-crediblue focus:ring-crediblue accent-crediblue">
                                 <div>
@@ -564,7 +698,6 @@
                 </div>
             </template>
 
-            <!-- ====== IMAGEN 3: Dirección de entrega (Resumen) ====== -->
             <template id="tpl-direccion-entrega">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 my-4 animate-fade-in max-w-[95%] mx-auto overflow-hidden">
                     <div class="p-4 border-b border-stone-100 bg-stone-50 flex items-center gap-2">
@@ -579,11 +712,11 @@
 
                         <div class="border border-stone-100 rounded-xl p-3 flex gap-3 items-center mb-5 shadow-sm bg-stone-50">
                             <div class="w-10 h-12 bg-white rounded flex items-center justify-center border border-stone-200 p-1">
-                                <img src="image_9.jpg" class="object-cover h-full">
+                                <i class="fa-solid fa-box text-stone-300 text-xl"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-stone-800 text-[11px]">Refrigeradora Samsung 450L</h4>
-                                <p class="text-[10px] text-stone-500">S/ 3,699 · Inverter Acero</p>
+                                <h4 class="font-bold text-stone-800 text-[11px] lbl-producto-dinamico">Producto Seleccionado</h4>
+                                <p class="text-[10px] text-stone-500">Con despacho a domicilio</p>
                             </div>
                         </div>
 
@@ -595,7 +728,6 @@
                         <div class="bg-green-50 border border-green-100 rounded-xl p-3 mb-4 flex items-start gap-2">
                             <i class="fa-solid fa-location-crosshairs text-green-600 mt-0.5"></i>
                             <div>
-                                <!-- ID Agregado para actualizarlo con JS -->
                                 <p id="lbl-direccion-actual" class="font-bold text-stone-800 text-xs">Av. Tomás Valle 1234</p>
                                 <p class="text-[10px] text-stone-600">Urb. Los Olivos, Lima</p>
                                 <p class="text-[9px] text-stone-400 italic mt-0.5">Ref: Frente al parque, altura cdra 12.</p>
@@ -615,7 +747,6 @@
                 </div>
             </template>
 
-            <!-- ====== IMAGEN 7: Cambiar Dirección (Formulario) ====== -->
             <template id="tpl-cambiar-dir">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 my-4 animate-fade-in max-w-[95%] mx-auto overflow-hidden">
                     <div class="p-4 border-b border-stone-100 bg-stone-50 flex items-center gap-2">
@@ -678,7 +809,6 @@
                 </div>
             </template>
 
-            <!-- ====== IMAGEN 4: Resumen Final ====== -->
             <template id="tpl-resumen-final">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 my-4 animate-fade-in max-w-[95%] mx-auto overflow-hidden">
                     <div class="p-4 border-b border-stone-100 bg-stone-50 flex items-center gap-2">
@@ -696,11 +826,9 @@
                             <div class="grid grid-cols-[auto_1fr] gap-y-2 gap-x-2 text-[11px]">
                                 <p class="text-stone-500">Entidad financiera</p><p class="font-bold text-right text-stone-800">Cálidda Financiera</p>
                                 <p class="text-stone-500">Producto</p><p class="font-bold text-right text-stone-800">Crédito Personal</p>
-                                <p class="text-stone-500">Monto financiado</p><p class="font-bold text-right text-stone-800">S/ 1,199.00</p>
-                                <p class="text-stone-500">Plazo</p><p class="font-bold text-right text-stone-800">155 meses</p>
-                                <p class="text-stone-500">Cuota mensual</p><p class="font-bold text-right text-stone-800">Desde S/ 155.00</p>
-                                <p class="text-stone-500 flex items-center gap-1">TCEA Referencial <i class="fa-solid fa-circle-info text-[9px]"></i></p><p class="font-bold text-right text-stone-800">28.45%</p>
-                                <p class="text-stone-500">Fecha de primer pago</p><p class="font-bold text-right text-stone-800">15 de junio de 2025</p>
+                                <p class="text-stone-500">Monto financiado</p><p class="font-bold text-right text-stone-800 lbl-monto-dinamico">S/ 2,899.00</p>
+                                <p class="text-stone-500">Plazo</p><p class="font-bold text-right text-stone-800">24 meses</p>
+                                <p class="text-stone-500 flex items-center gap-1">TCEA Referencial <i class="fa-solid fa-circle-info text-[9px]"></i></p><p class="font-bold text-right text-stone-800">48.50%</p>
                             </div>
                         </div>
 
@@ -722,18 +850,16 @@
                                 <li class="flex items-start gap-2"><i class="fa-regular fa-circle-check text-green-500 mt-0.5"></i> El crédito está sujeto a evaluación y aprobación crediticia.</li>
                                 <li class="flex items-start gap-2"><i class="fa-regular fa-circle-check text-green-500 mt-0.5"></i> Al aceptar, autorizas el tratamiento de tus datos personales.</li>
                                 <li class="flex items-start gap-2"><i class="fa-regular fa-circle-check text-green-500 mt-0.5"></i> Podrás realizar pagos anticipados sin penalidad.</li>
-                                <li class="flex items-start gap-2"><i class="fa-regular fa-circle-check text-green-500 mt-0.5"></i> En caso de retraso, se aplicarán cargos indicados en el contrato.</li>
                             </ul>
                         </div>
 
                         <h4 class="font-bold text-stone-800 text-[13px] mb-3">Resumen de tu compra</h4>
                         
                         <div class="border border-stone-200 rounded-xl p-3 flex gap-3 items-center mb-3">
-                            <div class="w-10 h-12 bg-white rounded flex-shrink-0 flex items-center justify-center overflow-hidden p-0.5"><img src="image_9.jpg" class="object-cover h-full"></div>
+                            <div class="w-10 h-12 bg-white rounded flex-shrink-0 flex items-center justify-center overflow-hidden p-0.5"><i class="fa-solid fa-box text-stone-300 text-xl"></i></div>
                             <div>
-                                <p class="text-[8px] text-stone-400 font-bold uppercase tracking-wider mb-0.5">Artefacto</p>
-                                <h4 class="font-bold text-stone-800 text-[11px] leading-tight">Refrigeradora Samsung 450L</h4>
-                                <p class="text-[9px] text-stone-500">Acero Inoxidable - Inverter</p>
+                                <p class="text-[8px] text-stone-400 font-bold uppercase tracking-wider mb-0.5">Producto</p>
+                                <h4 class="font-bold text-stone-800 text-[11px] leading-tight lbl-producto-dinamico">Producto</h4>
                             </div>
                         </div>
 
@@ -757,7 +883,6 @@
                 </div>
             </template>
 
-            <!-- ====== IMAGEN 6: Compra Confirmada ====== -->
             <template id="tpl-compra-confirmada">
                 <div class="flow-card bg-white rounded-2xl shadow-md border border-stone-200 my-4 animate-fade-in max-w-[95%] mx-auto overflow-hidden">
                     <div class="p-6 text-center pt-8">
@@ -820,12 +945,17 @@
         const sendBtn = document.getElementById('send-btn');
         const micBtn = document.querySelector('.fa-microphone');
         
+        // Modales y botones
         const modal = document.getElementById('product-modal');
         const btnCloseModal = document.getElementById('btn-close-modal');
         const btnBackModal = document.getElementById('btn-back-product');
         const btnBuyModal = document.getElementById('btn-buy-product');
 
-        // Modal de Compra y Overlay biométrico
+        const modalTech = document.getElementById('product-modal-tech');
+        const btnCloseModalTech = document.getElementById('btn-close-modal-tech');
+        const btnBackModalTech = document.getElementById('btn-back-product-tech');
+        const btnBuyModalTech = document.getElementById('btn-buy-product-tech');
+
         const confirmPurchaseModal = document.getElementById('confirm-purchase-modal');
         const chkTerms = document.getElementById('chk-terms');
         const btnModalConfirm = document.getElementById('btn-modal-confirm');
@@ -834,9 +964,9 @@
 
         // Variables Globales
         let currentState = 0; 
-        let globalSavedAddress = "Av. Tomás Valle 1234"; // Dirección base para mantener la actualización
+        let currentFlowType = 'refri'; // Permite variar entre 'refri' y 'tech'
+        let globalSavedAddress = "Av. Tomás Valle 1234";
 
-        // Utilidades Chat
         function scrollChatToBottom() {
             setTimeout(() => { chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' }); }, 100);
         }
@@ -861,7 +991,7 @@
             }
         });
 
-        // Lógica IA Agente Inteligente (Requerimiento 1)
+        // NUEVA LÓGICA DE DETECCIÓN INTELIGENTE (Tecnología y Refrigeradoras)
         function handleUserSend() {
             const text = userInput.value.trim();
             if (!text) return;
@@ -874,28 +1004,29 @@
             const textLower = text.toLowerCase();
 
             setTimeout(() => {
-                const quiereComprar = textLower.includes('comprar') || textLower.includes('financiar') || textLower.includes('quiero');
+                const quiereComprar = textLower.includes('comprar') || textLower.includes('financiar') || textLower.includes('quiero') || textLower.includes('busco');
                 const mencionaRefri = textLower.includes('refrigeradora') || textLower.includes('refri') || textLower.includes('refrigerador');
+                const mencionaTech = textLower.includes('tecnología') || textLower.includes('tecnologia');
+                const mencionaCelular = textLower.includes('celular') || textLower.includes('iphone') || textLower.includes('audífonos') || textLower.includes('parlantes') || textLower.includes('laptop');
 
-                if (currentState === 0) {
-                    if (quiereComprar && mencionaRefri) {
-                        addBotMessage("¡Genial! ❄️ Puedo buscar opciones de refrigeradoras disponibles para financiar con CrediCálidda.");
-                        setTimeout(() => triggerEvalForm(), 800);
-                        currentState = 2;
-                    } else if (quiereComprar) {
-                        addBotMessage("¡Claro! tenemos diferentes opciones de artefactos, dime qué tipo estás buscando? por ejemplo: cocinas, lavadoras, termas, refrigeradoras, etc.");
-                        currentState = 1;
-                    } else {
-                        addBotMessage("Por favor, dime si deseas 'comprar un artefacto' o 'comprar una refrigeradora' para poder ayudarte.");
-                    }
-                } else if (currentState === 1) {
-                    if (mencionaRefri) {
-                        addBotMessage("¡Genial! ❄️ Puedo buscar opciones de refrigeradoras disponibles para financiar con CrediCálidda.");
-                        setTimeout(() => triggerEvalForm(), 800);
-                        currentState = 2;
-                    } else {
-                        addBotMessage("Entendido. Tenemos diversas opciones, pero para iniciar tu evaluación de financiamiento en este momento te sugiero buscar refrigeradoras. ¿Te gustaría ver opciones de refrigeradoras?");
-                    }
+                if (mencionaTech && !mencionaCelular) {
+                    addBotMessage("¡Claro! tenemos diferentes opciones de tecnología, dime qué tipo estás buscando? por ejemplo: celular iphone, celular samsung, audífonos, parlantes, laptop, etc");
+                    currentState = 1;
+                } else if (mencionaCelular) {
+                    currentFlowType = 'tech';
+                    addBotMessage("¡Genial! Puedo buscar opciones de celulares disponibles para financiar con CrediCálidda.");
+                    setTimeout(() => triggerEvalForm(), 800);
+                    currentState = 2;
+                } else if (mencionaRefri) {
+                    currentFlowType = 'refri';
+                    addBotMessage("¡Genial! ❄️ Puedo buscar opciones de refrigeradoras disponibles para financiar con CrediCálidda.");
+                    setTimeout(() => triggerEvalForm(), 800);
+                    currentState = 2;
+                } else if (quiereComprar) {
+                    addBotMessage("¡Claro! tenemos diferentes opciones, ¿qué tipo estás buscando? por ejemplo: refrigeradoras, tecnología (celulares, laptop), etc.");
+                    currentState = 1;
+                } else {
+                    addBotMessage("Dime si deseas buscar 'refrigeradoras' o 'tecnología' (celulares, etc.) para poder ayudarte.");
                 }
             }, 600);
         }
@@ -903,7 +1034,8 @@
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleUserSend(); });
         sendBtn.addEventListener('click', handleUserSend);
 
-        // --- FLUJO DE COMPRA Y EVALUACIÓN ---
+
+        // --- FLUJO COMPARTIDO ---
 
         function cancelEntireFlow() {
             const activeCards = chatContainer.querySelectorAll('.flow-card');
@@ -926,12 +1058,10 @@
             card.querySelector('.eval-form').addEventListener('submit', (e) => {
                 e.preventDefault();
                 if(codInput.value.length === 6 && docInput.value.length === 8) {
-                    const codVal = codInput.value;
-                    const docVal = docInput.value;
                     card.classList.add('hidden');
-                    triggerEvalLoading(codVal, docVal);
+                    triggerEvalLoading(codInput.value, docInput.value);
                 } else {
-                    alert('Asegúrate de ingresar 6 dígitos numéricos para el código y 8 dígitos para el documento.');
+                    alert('Ingresa 6 dígitos numéricos para el código y 8 dígitos para el documento.');
                 }
             });
 
@@ -951,7 +1081,11 @@
 
             setTimeout(() => {
                 card.classList.add('hidden');
-                const mensajeUnificadoHtml = `¡Genial! Has sido preaprobado para financiar con CrediCálidda 🎉 Tienes un monto disponible de hasta <span class='text-crediblue font-bold'>S/ 5,000</span>. Estas son algunas refrigeradoras disponibles para ti:`;
+                
+                // Mensaje Dinámico adaptado al flujo
+                const tipoProducto = currentFlowType === 'tech' ? 'celulares' : 'refrigeradoras';
+                const mensajeUnificadoHtml = `¡Genial! Has sido preaprobado para financiar con CrediCálidda 🎉 Tienes un monto disponible de hasta <span class='text-crediblue font-bold'>S/ 5,000</span>. Estos son algunos ${tipoProducto} disponibles para ti:`;
+                
                 addBotMessage(mensajeUnificadoHtml);
                 setTimeout(() => triggerProductList(), 400);
                 currentState = 3; 
@@ -959,15 +1093,19 @@
         }
 
         function triggerProductList() {
-            const template = document.getElementById('tpl-product-list').content.cloneNode(true);
+            // Selecciona el template dependiendo del flujo elegido
+            const templateId = currentFlowType === 'tech' ? 'tpl-product-list-tech' : 'tpl-product-list';
+            const template = document.getElementById(templateId).content.cloneNode(true);
             const container = template.querySelector('.product-list-container');
             
             const detailBtns = container.querySelectorAll('.btn-view-details');
             detailBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    modal.classList.remove('hidden');
-                    modal.classList.add('flex');
+                    // Abre el modal correspondiente
+                    const activeModal = currentFlowType === 'tech' ? modalTech : modal;
+                    activeModal.classList.remove('hidden');
+                    activeModal.classList.add('flex');
                 });
             });
 
@@ -984,14 +1122,14 @@
             scrollChatToBottom();
         }
 
-        // Funcionalidad Modal Detalles
+
+        // Funcionalidad Modal Refrigeradoras
         function closeModal() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
-        
-        btnCloseModal.addEventListener('click', closeModal);
-        btnBackModal.addEventListener('click', closeModal);
+        if(btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+        if(btnBackModal) btnBackModal.addEventListener('click', closeModal);
 
         const mainImg = document.getElementById('main-product-img');
         const thumbs = document.querySelectorAll('.thumb-img-box');
@@ -999,30 +1137,39 @@
         thumbs.forEach(thumb => {
             thumb.addEventListener('click', () => {
                 mainImg.style.opacity = 0;
-                setTimeout(() => {
-                    mainImg.src = thumb.dataset.src;
-                    mainImg.style.opacity = 1;
-                }, 150);
-                
-                thumbs.forEach(t => { 
-                    t.classList.remove('border-2', 'border-crediblue'); 
-                    t.classList.add('border', 'border-stone-200'); 
-                });
-                thumb.classList.remove('border', 'border-stone-200');
-                thumb.classList.add('border-2', 'border-crediblue');
+                setTimeout(() => { mainImg.src = thumb.dataset.src; mainImg.style.opacity = 1; }, 150);
+                thumbs.forEach(t => { t.classList.remove('border-2', 'border-crediblue'); t.classList.add('border', 'border-stone-200'); });
+                thumb.classList.remove('border', 'border-stone-200'); thumb.classList.add('border-2', 'border-crediblue');
             });
         });
 
-        btnBuyModal.addEventListener('click', () => {
+        if(btnBuyModal) btnBuyModal.addEventListener('click', () => {
             closeModal();
             const lastList = document.querySelector('.product-list-container:not(.hidden)');
             if(lastList) lastList.classList.add('hidden');
-            
             triggerOrderSummary(lastList);
         });
 
+        // Funcionalidad Modal Tecnología (NUEVO)
+        function closeModalTech() {
+            modalTech.classList.add('hidden');
+            modalTech.classList.remove('flex');
+        }
+        if(btnCloseModalTech) btnCloseModalTech.addEventListener('click', closeModalTech);
+        if(btnBackModalTech) btnBackModalTech.addEventListener('click', closeModalTech);
+
+        if(btnBuyModalTech) btnBuyModalTech.addEventListener('click', () => {
+            closeModalTech();
+            const lastList = document.querySelector('.product-list-container:not(.hidden)');
+            if(lastList) lastList.classList.add('hidden');
+            triggerOrderSummary(lastList);
+        });
+
+
         function triggerOrderSummary(prevCard) {
-            const template = document.getElementById('tpl-order-summary').content.cloneNode(true);
+            // Selecciona la vista de resumen apropiada
+            const templateId = currentFlowType === 'tech' ? 'tpl-order-summary-tech' : 'tpl-order-summary';
+            const template = document.getElementById(templateId).content.cloneNode(true);
             const card = template.querySelector('.flow-card');
             
             card.querySelector('#btn-continue-req').addEventListener('click', () => {
@@ -1040,7 +1187,7 @@
             scrollChatToBottom();
         }
 
-        // Lógica reutilizable OTP
+        // Utilidades OTP Compartidas
         function setupOTPLogic(card, continueBtnId, callbackFunction, prevCard) {
             const inputs = card.querySelectorAll('.otp-input');
             const btn = card.querySelector(continueBtnId);
@@ -1048,12 +1195,9 @@
             inputs.forEach((input, index) => {
                 input.addEventListener('input', () => {
                     input.value = input.value.replace(/[^0-9]/g, '');
-                    if(input.value.length === 1 && index < inputs.length - 1) {
-                        inputs[index + 1].focus();
-                    }
+                    if(input.value.length === 1 && index < inputs.length - 1) inputs[index + 1].focus();
                     validateAll();
                 });
-                
                 input.addEventListener('keydown', (e) => {
                     if (e.key === 'Backspace' && input.value === '' && index > 0) {
                         inputs[index - 1].focus();
@@ -1065,13 +1209,8 @@
 
             function validateAll() {
                 const allFilled = Array.from(inputs).every(i => i.value.length === 1);
-                if (allFilled) {
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                } else {
-                    btn.disabled = true;
-                    btn.classList.add('opacity-50', 'cursor-not-allowed');
-                }
+                if (allFilled) { btn.disabled = false; btn.classList.remove('opacity-50', 'cursor-not-allowed'); } 
+                else { btn.disabled = true; btn.classList.add('opacity-50', 'cursor-not-allowed'); }
             }
 
             btn.addEventListener('click', () => {
@@ -1091,16 +1230,12 @@
             });
 
             const cancelBtn = card.querySelector('.btn-cancel-flow');
-            if(cancelBtn) {
-                cancelBtn.addEventListener('click', () => {
-                    card.remove();
-                    cancelEntireFlow();
-                });
-            }
+            if(cancelBtn) cancelBtn.addEventListener('click', () => { card.remove(); cancelEntireFlow(); });
             
-            setTimeout(() => inputs[0].focus(), 300);
+            setTimeout(() => inputs[0]?.focus(), 300);
         }
 
+        // Flujos de validación
         function triggerVerificationPhone(prevCard) {
             const template = document.getElementById('tpl-verification-phone').content.cloneNode(true);
             const card = template.querySelector('.flow-card');
@@ -1120,35 +1255,18 @@
             const card = template.querySelector('.flow-card');
             
             const backBio = card.querySelector('.btn-back-bio') || card.querySelector('.fa-arrow-left');
-            if(backBio) {
-                backBio.addEventListener('click', () => {
-                    card.remove();
-                    if(prevCard) prevCard.classList.remove('hidden');
-                    scrollChatToBottom();
-                });
-            }
+            if(backBio) backBio.addEventListener('click', () => { card.remove(); if(prevCard) prevCard.classList.remove('hidden'); scrollChatToBottom(); });
 
             const cancelBtn = card.querySelector('.btn-cancel-flow');
-            if(cancelBtn) {
-                cancelBtn.addEventListener('click', () => {
-                    card.remove();
-                    cancelEntireFlow();
-                });
-            }
+            if(cancelBtn) cancelBtn.addEventListener('click', () => { card.remove(); cancelEntireFlow(); });
 
-            // Integración NUEVA: Simulación biométrica externa 
             card.querySelector('#btn-start-bio').addEventListener('click', () => {
                 card.classList.add('hidden');
+                externalSimOverlay.classList.remove('hidden'); externalSimOverlay.classList.add('flex');
                 
-                // Muestra overlay externo
-                externalSimOverlay.classList.remove('hidden');
-                externalSimOverlay.classList.add('flex');
-                
-                // Simula proceso de 2.5s y avanza al Paso 1 de las nuevas imágenes
                 setTimeout(() => {
-                    externalSimOverlay.classList.add('hidden');
-                    externalSimOverlay.classList.remove('flex');
-                    triggerVerifSuccess(card); // Pasa a Imagen 1
+                    externalSimOverlay.classList.add('hidden'); externalSimOverlay.classList.remove('flex');
+                    triggerVerifSuccess(card); 
                 }, 2500);
             });
 
@@ -1157,187 +1275,127 @@
         }
 
 
-        // =========================================================================
-        // NUEVAS FUNCIONES PARA EL FLUJO (IMÁGENES 1 A LA 7)
-        // =========================================================================
-
-        // Imagen 1: Verificación Completada
+        // Pantallas Finales
         function triggerVerifSuccess(prevCard) {
             const template = document.getElementById('tpl-verif-success').content.cloneNode(true);
             const card = template.querySelector('.flow-card');
             
-            // Botón Atrás
             card.querySelector('.btn-back-success').addEventListener('click', () => {
-                card.remove();
-                if(prevCard) prevCard.classList.remove('hidden');
-                scrollChatToBottom();
+                card.remove(); if(prevCard) prevCard.classList.remove('hidden'); scrollChatToBottom();
             });
 
-            // Botón Continuar -> Va a Selección de Plan (Imagen 2)
             card.querySelector('.btn-continue-success').addEventListener('click', () => {
-                card.classList.add('hidden');
-                triggerPlanFinanciamiento(card);
+                card.classList.add('hidden'); triggerPlanFinanciamiento(card);
             });
-            
-            chatContainer.appendChild(template);
-            scrollChatToBottom();
+            chatContainer.appendChild(template); scrollChatToBottom();
         }
 
-        // Imagen 2: Plan de Financiamiento
         function triggerPlanFinanciamiento(prevCard) {
             const template = document.getElementById('tpl-plan-financiamiento').content.cloneNode(true);
             const card = template.querySelector('.flow-card');
             
-            // Animación y clase visual para Radio buttons de planes
             const planOptions = card.querySelectorAll('.plan-option');
             planOptions.forEach(opt => {
                 opt.addEventListener('click', () => {
-                    planOptions.forEach(o => { 
-                        o.classList.remove('border-2', 'border-crediblue', 'bg-sky-50'); 
-                        o.classList.add('border', 'border-stone-200'); 
-                    });
-                    opt.classList.remove('border', 'border-stone-200'); 
-                    opt.classList.add('border-2', 'border-crediblue', 'bg-sky-50');
+                    planOptions.forEach(o => { o.classList.remove('border-2', 'border-crediblue', 'bg-sky-50'); o.classList.add('border', 'border-stone-200'); });
+                    opt.classList.remove('border', 'border-stone-200'); opt.classList.add('border-2', 'border-crediblue', 'bg-sky-50');
                 });
             });
 
             card.querySelector('.btn-back-plan').addEventListener('click', () => {
-                card.remove();
-                if(prevCard) prevCard.classList.remove('hidden');
-                scrollChatToBottom();
+                card.remove(); if(prevCard) prevCard.classList.remove('hidden'); scrollChatToBottom();
             });
 
-            // Botón Continuar -> Va a Dirección de Entrega (Imagen 3)
             card.querySelector('.btn-continue-plan').addEventListener('click', () => {
-                card.classList.add('hidden');
-                triggerDireccionEntrega(card);
+                card.classList.add('hidden'); triggerDireccionEntrega(card);
             });
-            
-            chatContainer.appendChild(template);
-            scrollChatToBottom();
+            chatContainer.appendChild(template); scrollChatToBottom();
         }
 
-        // Imagen 3: Dirección de entrega resumen
         function triggerDireccionEntrega(prevCard) {
             const template = document.getElementById('tpl-direccion-entrega').content.cloneNode(true);
             const card = template.querySelector('.flow-card');
             
-            // Colocamos la dirección global si es que fue editada previamente en la Imagen 7
+            // Actualización dinámica según flujo
+            card.querySelector('.lbl-producto-dinamico').textContent = currentFlowType === 'tech' ? 'iPhone 14' : 'Refrigeradora Samsung 450L';
             card.querySelector('#lbl-direccion-actual').textContent = globalSavedAddress;
 
             card.querySelector('.btn-back-direccion').addEventListener('click', () => {
-                card.remove();
-                if(prevCard) prevCard.classList.remove('hidden');
-                scrollChatToBottom();
+                card.remove(); if(prevCard) prevCard.classList.remove('hidden'); scrollChatToBottom();
             });
 
-            // Requerimiento 4: Botón "Cambiar" -> Abre formulario (Imagen 7)
             card.querySelector('.btn-cambiar-direccion').addEventListener('click', () => {
-                card.classList.add('hidden');
-                triggerCambiarDireccion(card); // Pasamos la tarjeta actual para saber a donde volver
+                card.classList.add('hidden'); triggerCambiarDireccion(card); 
             });
 
-            // Botón Confirmar -> Va a Resumen Final (Imagen 4)
             card.querySelector('.btn-confirm-direccion').addEventListener('click', () => {
-                card.classList.add('hidden');
-                triggerResumenFinal(card);
+                card.classList.add('hidden'); triggerResumenFinal(card);
             });
-            
-            chatContainer.appendChild(template);
-            scrollChatToBottom();
+            chatContainer.appendChild(template); scrollChatToBottom();
         }
 
-        // Imagen 7: Formulario de Cambiar Dirección
         function triggerCambiarDireccion(prevCardDireccion) {
             const template = document.getElementById('tpl-cambiar-dir').content.cloneNode(true);
             const card = template.querySelector('.flow-card');
             
-            // Función común para volver a la pantalla de Dirección (Imagen 3)
-            const goBack = () => { 
-                card.remove(); 
-                prevCardDireccion.classList.remove('hidden'); 
-                scrollChatToBottom(); 
-            };
-            
-            // Botones de cancelar / atrás
+            const goBack = () => { card.remove(); prevCardDireccion.classList.remove('hidden'); scrollChatToBottom(); };
             card.querySelector('.btn-cancelar-cambio').addEventListener('click', goBack);
             card.querySelectorAll('.btn-cancelar-cambio')[1]?.addEventListener('click', goBack);
             
-            // Botón Guardar Dirección
             card.querySelector('.btn-guardar-dir').addEventListener('click', () => {
                 const newDir = card.querySelector('#input-new-dir').value;
-                globalSavedAddress = newDir; // Actualizamos estado global
-                prevCardDireccion.querySelector('#lbl-direccion-actual').textContent = newDir; // Actualiza DOM del template anterior
+                globalSavedAddress = newDir; 
+                prevCardDireccion.querySelector('#lbl-direccion-actual').textContent = newDir; 
                 goBack();
             });
-            
-            chatContainer.appendChild(template);
-            scrollChatToBottom();
+            chatContainer.appendChild(template); scrollChatToBottom();
         }
 
-        // Imagen 4: Resumen final
         function triggerResumenFinal(prevCard) {
             const template = document.getElementById('tpl-resumen-final').content.cloneNode(true);
             const card = template.querySelector('.flow-card');
             
-            // Insertar dirección global si cambió
+            // Dinamismo de textos
+            card.querySelector('.lbl-producto-dinamico').textContent = currentFlowType === 'tech' ? 'iPhone 14 128GB' : 'Refrigeradora Samsung 450L';
+            card.querySelector('.lbl-monto-dinamico').textContent = currentFlowType === 'tech' ? 'S/ 3,699.00' : 'S/ 2,899.00';
             card.querySelector('#lbl-direccion-resumen').textContent = globalSavedAddress;
 
             card.querySelector('.btn-back-resumen').addEventListener('click', () => {
-                card.remove();
-                if(prevCard) prevCard.classList.remove('hidden');
-                scrollChatToBottom();
+                card.remove(); if(prevCard) prevCard.classList.remove('hidden'); scrollChatToBottom();
             });
             
-            // Confirmar abre Modal (Imagen 5)
             card.querySelector('.btn-open-modal').addEventListener('click', () => {
-                confirmPurchaseModal.classList.remove('hidden');
-                confirmPurchaseModal.classList.add('flex');
+                confirmPurchaseModal.classList.remove('hidden'); confirmPurchaseModal.classList.add('flex');
             });
-            
-            chatContainer.appendChild(template);
-            scrollChatToBottom();
+            chatContainer.appendChild(template); scrollChatToBottom();
         }
 
-        // Lógica del Modal de Confirmación (Imagen 5)
         chkTerms.addEventListener('change', () => {
-            if(chkTerms.checked) {
-                btnModalConfirm.disabled = false;
-                btnModalConfirm.classList.remove('opacity-50', 'cursor-not-allowed');
-            } else {
-                btnModalConfirm.disabled = true;
-                btnModalConfirm.classList.add('opacity-50', 'cursor-not-allowed');
-            }
+            if(chkTerms.checked) { btnModalConfirm.disabled = false; btnModalConfirm.classList.remove('opacity-50', 'cursor-not-allowed'); } 
+            else { btnModalConfirm.disabled = true; btnModalConfirm.classList.add('opacity-50', 'cursor-not-allowed'); }
         });
 
         btnModalCancel.addEventListener('click', () => {
-            confirmPurchaseModal.classList.add('hidden');
-            confirmPurchaseModal.classList.remove('flex');
-            chkTerms.checked = false; // reset
-            btnModalConfirm.disabled = true;
-            btnModalConfirm.classList.add('opacity-50', 'cursor-not-allowed');
+            confirmPurchaseModal.classList.add('hidden'); confirmPurchaseModal.classList.remove('flex');
+            chkTerms.checked = false; btnModalConfirm.disabled = true; btnModalConfirm.classList.add('opacity-50', 'cursor-not-allowed');
         });
 
         btnModalConfirm.addEventListener('click', () => {
-            confirmPurchaseModal.classList.add('hidden');
-            confirmPurchaseModal.classList.remove('flex');
+            confirmPurchaseModal.classList.add('hidden'); confirmPurchaseModal.classList.remove('flex');
             
-            // Ocultamos el resumen final
             const lastResumen = chatContainer.querySelector('.flow-card:last-of-type');
             if(lastResumen) lastResumen.classList.add('hidden');
             
             triggerCompraConfirmada();
         });
 
-        // Imagen 6: Compra Confirmada y fin del flujo
         function triggerCompraConfirmada() {
             const template = document.getElementById('tpl-compra-confirmada').content.cloneNode(true);
             const card = template.querySelector('.flow-card');
             
             card.querySelector('.btn-finish-flow').addEventListener('click', () => {
-                card.querySelector('.btn-finish-flow').classList.add('hidden'); // Lo ocultamos para simular que avanzó
+                card.querySelector('.btn-finish-flow').classList.add('hidden');
                 
-                // Mensaje interactivo del bot (Quick Replies)
                 const msgHtml = `<div class="bg-white p-3 rounded-lg shadow-sm max-w-[85%] text-stone-800 my-4 animate-fade-in relative pb-8">
                                     <p class="font-medium text-sm">¿Hay algo más en lo que pueda ayudarte?</p>
                                     <div class="absolute bottom-1 right-2 flex gap-2">
@@ -1348,7 +1406,7 @@
                                 </div>`;
                 chatContainer.insertAdjacentHTML('beforeend', msgHtml);
                 scrollChatToBottom();
-                currentState = 0; // Reiniciamos por si el usuario desea iniciar otra compra 
+                currentState = 0; 
             });
 
             chatContainer.appendChild(template);
